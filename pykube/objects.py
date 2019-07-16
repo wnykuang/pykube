@@ -12,6 +12,9 @@ from .utils import obj_merge
 
 
 class ObjectManager:
+    #function all
+    #x = ObjectManager()
+    # x(api, namespace)
     def __call__(self, api, namespace=None):
         if namespace is None and NamespacedAPIObject in getmro(self.api_obj_class):
             namespace = api.config.namespace
@@ -41,12 +44,14 @@ class APIObject:
         self._original_obj = copy.deepcopy(obj)
 
     def __repr__(self):
+        #call by 'str' and format.
         return "<{kind} {name}>".format(kind=self.kind, name=self.name)
 
     def __str__(self):
         return self.name
 
     @property
+    #property: getter and setter. can called as APIObject.name(like in __str__)
     def name(self) -> str:
         '''
         Name of the Kubernetes resource (metadata.name)
@@ -82,14 +87,18 @@ class APIObject:
         return self.obj["metadata"].setdefault("annotations", {})
 
     def api_kwargs(self, **kwargs):
+        #**kwargs is a dictionary of arguements to be passed into
         kw = {}
         # Construct url for api request
         obj_list = kwargs.pop("obj_list", False)
+
+        # Construct URL
         if obj_list:
             kw["url"] = self.endpoint
         else:
             operation = kwargs.pop("operation", "")
             kw["url"] = op.normpath(op.join(self.endpoint, self.name, operation))
+
         params = kwargs.pop("params", None)
         if params is not None:
             query_string = urlencode(params)
@@ -124,6 +133,7 @@ class APIObject:
         self.set_obj(r.json())
 
     def watch(self):
+       #what is a .watch() function? 
         return self.__class__.objects(
             self.api,
             namespace=self.namespace
