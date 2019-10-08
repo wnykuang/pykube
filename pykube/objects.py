@@ -133,7 +133,6 @@ class APIObject:
         self.set_obj(r.json())
 
     def watch(self):
-       #what is a .watch() function?
         return self.__class__.objects(
             self.api,
             namespace=self.namespace
