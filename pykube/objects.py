@@ -133,7 +133,6 @@ class APIObject:
         self.set_obj(r.json())
 
     def watch(self):
-       #what is a .watch() function? 
         return self.__class__.objects(
             self.api,
             namespace=self.namespace
@@ -152,12 +151,16 @@ class APIObject:
         self.api.raise_for_status(r)
         self.set_obj(r.json())
 
-    def update(self):
+    def update(self, is_strategic=True):
         '''
         Update the Kubernetes resource by calling the API (patch)
         '''
-        self.obj = obj_merge(self.obj, self._original_obj)
-        self.patch(self.obj)
+        if is_strategic:
+            self.obj = obj_merge(self.obj, self._original_obj)
+            self.patch(self.obj)
+        else:
+            self.obj = obj_merge(self.obj, self._original_obj, is_strategic)
+            self.patch(self.obj)
 
     def delete(self, propagation_policy: str = None):
         '''

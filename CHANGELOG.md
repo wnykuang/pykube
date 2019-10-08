@@ -132,3 +132,4 @@ pykube is now hosted under the Kel Project.
 ### Bug fixes
 
 * added `DaemonSet` to public API
+
