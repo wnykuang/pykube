@@ -12,9 +12,6 @@ from .utils import obj_merge
 
 
 class ObjectManager:
-    #function all
-    #x = ObjectManager()
-    # x(api, namespace)
     def __call__(self, api, namespace=None):
         if namespace is None and NamespacedAPIObject in getmro(self.api_obj_class):
             namespace = api.config.namespace
@@ -51,7 +48,6 @@ class APIObject:
         return self.name
 
     @property
-    #property: getter and setter. can called as APIObject.name(like in __str__)
     def name(self) -> str:
         '''
         Name of the Kubernetes resource (metadata.name)
@@ -87,12 +83,9 @@ class APIObject:
         return self.obj["metadata"].setdefault("annotations", {})
 
     def api_kwargs(self, **kwargs):
-        #**kwargs is a dictionary of arguements to be passed into
         kw = {}
-        # Construct url for api request
         obj_list = kwargs.pop("obj_list", False)
 
-        # Construct URL
         if obj_list:
             kw["url"] = self.endpoint
         else:
