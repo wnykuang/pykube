@@ -41,7 +41,6 @@ class APIObject:
         self._original_obj = copy.deepcopy(obj)
 
     def __repr__(self):
-        #call by 'str' and format.
         return "<{kind} {name}>".format(kind=self.kind, name=self.name)
 
     def __str__(self):
@@ -84,6 +83,7 @@ class APIObject:
 
     def api_kwargs(self, **kwargs):
         kw = {}
+        # Construct url for api request
         obj_list = kwargs.pop("obj_list", False)
 
         if obj_list:
