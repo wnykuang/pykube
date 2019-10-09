@@ -4,6 +4,7 @@ import pytest
 
 import pykube
 from pykube.objects import Pod, NamespacedAPIObject
+from pykube.utils import obj_merge
 
 
 def test_api_object():
@@ -45,7 +46,10 @@ def test_set_label():
 
 
 def test_update():
-    pod = Pod(None, {'metadata': {'name': 'myname'}})
+    pod = Pod(None, {'metadata': {'name': 'john', 'kind': 'test'}, 'annotations': 'a long string'})
+    pod.obj = {'metadata': {'name': 'john'}}
     pod.api = MagicMock()
+    pod.api.patch.return_value.json.return_value = obj_merge(pod.obj, pod._original_obj, False)
     pod.update(is_strategic=False)
-    raise ValueError(pod.obj)
+    assert pod.metadata == {'name': 'john'}
+    assert pod.annotations == {}

@@ -18,22 +18,22 @@ def obj_merge(obj, original_obj, is_strategic=True):
         if k not in original_obj:
             c[k] = v
         else:
-            c[k] = obj_check(v, original_obj[k])
+            c[k] = obj_check(v, original_obj[k], is_strategic)
 
-    if is_strategic:
+    if is_strategic is True:
         for k, v in original_obj.items():
             if k not in obj:
                 c[k] = v
     return c
 
 
-def obj_check(obj_value, original_obj_value):
+def obj_check(obj_value, original_obj_value, is_strategic=True):
     check_result = None
     if not isinstance(obj_value, type(original_obj_value)):
         check_result = obj_value
     else:
         if isinstance(obj_value, dict):
-            check_result = obj_merge(obj_value, original_obj_value)
+            check_result = obj_merge(obj_value, original_obj_value, is_strategic)
 
         elif isinstance(obj_value, list):
             res_list = []
