@@ -42,3 +42,10 @@ def test_set_label():
     pod = Pod(None, {'metadata': {'name': 'myname'}})
     pod.labels['foo'] = 'bar'
     assert pod.labels['foo'] == 'bar'
+
+
+def test_update():
+    pod = Pod(None, {'metadata': {'name': 'myname'}})
+    pod.api = MagicMock()
+    pod.update(is_strategic=False)
+    raise ValueError(pod.obj)
