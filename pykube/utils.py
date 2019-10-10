@@ -36,15 +36,18 @@ def obj_check(obj_value, original_obj_value, is_strategic=True):
             check_result = obj_merge(obj_value, original_obj_value, is_strategic)
 
         elif isinstance(obj_value, list):
-            res_list = []
-            for x, y in zip_longest(obj_value, original_obj_value, fillvalue=empty):
-                if x is empty:
-                    res_list.append(y)
-                elif y is empty:
-                    res_list.append(x)
-                else:
-                    res_list.append(obj_check(x, y))
-            check_result = res_list
+            if is_strategic:
+                res_list = []
+                for x, y in zip_longest(obj_value, original_obj_value, fillvalue=empty):
+                    if x is empty:
+                        res_list.append(y)
+                    elif y is empty:
+                        res_list.append(x)
+                    else:
+                        res_list.append(obj_check(x, y, is_strategic))
+                check_result = res_list
+            else:
+                check_result = obj_value
         else:
             check_result = obj_value
     return check_result
