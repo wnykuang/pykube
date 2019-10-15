@@ -146,12 +146,8 @@ class APIObject:
         '''
         Update the Kubernetes resource by calling the API (patch)
         '''
-        if is_strategic:
-            self.obj = obj_merge(self.obj, self._original_obj)
-            self.patch(self.obj)
-        else:
-            self.obj = obj_merge(self.obj, self._original_obj, is_strategic)
-            self.patch(self.obj)
+        self.obj = obj_merge(self.obj, self._original_obj, is_strategic)
+        self.patch(self.obj)
 
     def delete(self, propagation_policy: str = None):
         '''
